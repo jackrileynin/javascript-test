@@ -1,64 +1,100 @@
-/* {
+body, html {
     margin: 0;
     padding: 0;
-   
+    height: 100%;
+    font-family: Arial, sans-serif;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+.header, .normal-page-headers {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+}
+
+#main-quiz-page, .end-page {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
-    height: 100vh;
-}
-
-.header {
-   display: flex;
-   justify-content: space-between;
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    width: 100%;
-    height: 25%;
+    align-items: center;
+    min-height: 100vh; 
+    width: 100vw; 
+    box-sizing: border-box; 
+    padding: 20px;
 }
 
 #descrip-area {
+    background-color: #f8f9fa;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#descrip-area h1, #final-score {
+    color: #6c757d;
     text-align: center;
+    width: 100%;
+}
+
+#start-button, #restart-button, .answers button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pages {
     margin: 20px;
 }
 
-#start-button {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    cursor: pointer;
+#question-area, #wrong-answers {
+    margin: 20px;
+}
+
+#answer-area ul, #wrong-answers-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#answer-area li {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #6c757d;
     border-radius: 5px;
 }
 
-#start-button:hover {
-    background-color: #2980b9;
-}
-#title{
-    width: 100%;
-    justify-self: center;
-    height: 15px;
+#answer-area li:hover {
+    background-color: #f8f9fa;
 }
 
-#timer{
+#answer-area li.correct {
+    background-color: #28a745;
     color: white;
 }
-#final-score{
-    visibility: hidden;
-    background-color: #3498db;
-    margin-top: 60px;
-    width: 50px;
-    height: 30px;
+
+#answer-area li.incorrect {
+    background-color: #dc3545;
+    color: white;
+}
+
+#final-score {
+    font-size: 2em;
+}
+.end-page {
+    display: none;
+}
+
+
+@media (max-width: 768px) {
+    #descrip-area h1, #final-score {
+        font-size: 1.5em;
+    }
+    #start-button, #restart-button, .answers button {
+        padding: 5px 10px;
+    }
 }
