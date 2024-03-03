@@ -1,4 +1,4 @@
-let quizPage = document.querySelector("#quiz-page");
+/* let quizPage = document.querySelector("#quiz-page");
 let mainButton = document.querySelector("#start-button");
 let newHeader = document.querySelector("#title");
 let questionArea = document.querySelector("#descrip-area");
@@ -115,4 +115,4 @@ function checkAnswer(choice){
     }
     
     
-}
+} */
