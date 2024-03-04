@@ -48,9 +48,12 @@
  var currentQuestion = 1;
  var score = 0;
  var wrongAnswers = [];
- var timeLeft = 60;
  var timerInterval;
  var questionHovered = false;
+    var timeLeft = 60;
+
+
+
  
 
 
@@ -61,6 +64,7 @@
      pages[0].hidden = false;
      startTimer();
      showQuestion();
+
  });
 
  // Restart the quiz
@@ -71,10 +75,24 @@
      currentQuestion = 1;
      score = 0;
      wrongAnswers = [];
-     timeLeft = 60;
      showQuestion();
-     startTimer();
- });
+     let searchInput = document.getElementById('search-input');
+    let scoreListings = document.getElementById('score-listings');
+    let setScoreButton = document.getElementById('set-score-button');
+
+    if (searchInput) {
+        endPage.removeChild(searchInput);
+    }
+    if (scoreListings) {
+        endPage.removeChild(scoreListings);
+    }
+    if (setScoreButton) {
+        endPage.removeChild(setScoreButton);
+    }
+});
+
+
+ 
  
 
 
@@ -108,34 +126,146 @@
 
 
  
-
+let finalScore 
 
  // End the quiz 
- function endQuiz() {
-     clearInterval(timerInterval);
-     finalScoreElement.textContent = "Your final score: " + score;
+ function endQuiz() {   
+
+     finalScore = finalScoreElement.textContent = "Your final score: " + score;
      wrongAnswersList.innerHTML = "";
      for (var i = 0; i < wrongAnswers.length; i++) {
          var li = document.createElement('li');
-         li.textContent = wrongAnswers[i].question;
+         li.textContent = wrongAnswers[i].answers[wrongAnswers[i].correctAnswer] + " is the correct answer to: " + wrongAnswers[i].question;
+
          wrongAnswersList.appendChild(li);
-     }
+     }      
+     //show the right answers to the li elements
+        startPage.hidden = true;
+
+
      pages[0].hidden = true;
      endPage.style.display = "block";
- }
+     //if the style of the endPage is block, then show button to trigger prompt to enter initials
+     searchScores();
+
+        const setScoreButton = document.createElement("button");
+        setScoreButton.textContent = "Save Score";
+        setScoreButton.setAttribute("id", "set-score-button");
+        endPage.appendChild(setScoreButton);
+        setScoreButton.addEventListener("click", function() {
+            saveInitials();
+            console.log(saveInitials)
+        });
+    }   
+    
+
+
+    //function that saves the initials and score to local storage
+    function saveInitials() {
+        let initials = prompt("Enter your initials");
+      
+        localStorage.setItem(initials, finalScore);
+        console.log(localStorage);
+            /*if(localStorage.length >= 1){
+             // functions that will create input element to find local storage item and "scroll listings" of past scores
+             searchScores()
+               
+            } */
+            
+        }
+
+
+    
+    //function that will create input element to find scores in off of intials entered, and will display the scores accordingly
+    function searchScores(){
+        let searchInput = document.createElement("input");
+        searchInput.setAttribute("id", "search-input");
+        searchInput.setAttribute("type", "text");
+        searchInput.setAttribute("placeholder", "Search Scores");
+        endPage.appendChild(searchInput);
+        //change it to be based off enter key
+         searchInput.addEventListener("keyup" , function(event){
+            if(event.key === "Enter"){
+                event.preventDefault();
+                let searchValue = searchInput.value;
+                let scoreListings = document.createElement("ul");
+                scoreListings.setAttribute("id", "score-listings");
+                endPage.appendChild(scoreListings);
+                for(let i = 0; i < localStorage.length; i++){
+                    if(localStorage.key(i).includes(searchValue)){
+                        let scoreListing = document.createElement("li");
+                        scoreListing.textContent = localStorage.getItem(localStorage.key(i));
+                        scoreListings.appendChild(scoreListing);
+                    }
+                }
+
+            }
+
+
+
+           
+        
+
+           /* let searchValue = searchInput.value;
+            let scoreListings = document.createElement("ul");
+            scoreListings.setAttribute("id", "score-listings");
+            endPage.appendChild(scoreListings);
+            for(let i = 0; i < localStorage.length; i++){
+                if(localStorage.key(i).includes(searchValue)){
+                    let scoreListing = document.createElement("li");
+                    scoreListing.textContent = localStorage.getItem(localStorage.key(i));
+                    scoreListings.appendChild(scoreListing);
+                }
+            }
+        });
+          */
+    });
+
+
+    }
+
+    /*function loadScores(){
+        //use array methods to go through the localstorage items and set them as the context of sematic elements
+        for(let i = 0; 10 < localStorage.length; i++){   
+            let scoreListing = document.createElement("li");
+            scoreListing.textContent = localStorage.getItem(localStorage.key(i));
+            endPage.appendChild(scoreListing);
+
+        }
+        console.log(scoreListing.textContent)
+    }
+    */
+            
+    
+
+
  
 
- // Timer
- function startTimer() {
-     timerInterval = setInterval(function() {
-         timeLeft--;
-         timerElement.textContent = "Time: " + timeLeft;
-         if (timeLeft <= 0) {
-             endQuiz();
-         }
-     }, 1000);
- }
+    // Timer
+    function startTimer() {
+    
+        timerInterval = setInterval(function() {
+           timeLeft--;
+            timerElement.textContent = "Time: " + timeLeft;
+            if (timeLeft <= 0) {
+                
+                endQuiz();
+                
+            }
+            if (endPage.style.display === "block") {
+                stopTimer();
+            }
 
+        }, 1000);
+
+    }
+
+    function stopTimer() {  
+        return clearInterval(timerInterval);
+
+    }   
+
+        
 
 
  // Hover over question area to show question
@@ -143,3 +273,5 @@
      questionElement.hidden = false;
      questionHovered = true;
  });
+
+
